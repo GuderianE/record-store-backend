@@ -9,6 +9,7 @@ const loginRouters = require("./routes/loginRouters");
 const meRouters = require("./routes/meRouters");
 const logoutRouters = require("./routes/logoutRouters");
 const PORT = 5001;
+const env = require('./config/config');
 require("dotenv").config();
 
 //MIDDLEWARE
@@ -23,7 +24,7 @@ app.use(cookieParser());
 app.use("/statics", express.static("statics")); // share files in statics folder on route /statics
 
 //MONGODB SETUP
-const dbString = `mongodb://guderian:Colore12@cluster0-shard-00-02.9of72.mongodb.net:27017/test?authSource=admin&replicaSet=atlas-czzf89-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true`;
+const dbString = env.db;
 const dbOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
