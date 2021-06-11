@@ -8,17 +8,23 @@ const recordRouters = require("./routes/recordRouters");
 const loginRouters = require("./routes/loginRouters");
 const meRouters = require("./routes/meRouters");
 const logoutRouters = require("./routes/logoutRouters");
-const PORT = 5001;
+const PORT = process.env.PORT || 5001;
 const env = require('./config/config');
 require("dotenv").config();
+
+//INITIALISE BACKEND
+app.listen(PORT, () => {
+  console.log(`Backend initialised on port: ${PORT}`);
+});
+
+app.get('/', (req, res) => {
+  res.send('Review Api');
+});
 
 //MIDDLEWARE
 app.use(express.json());
 app.use(
-  cors({
-    origin: "http://localhost:3000", // frontend URL should be configurable
-    credentials: true, // allow cookies to be sent from frontend to us
-  })
+  cors()
 );
 app.use(cookieParser());
 app.use("/statics", express.static("statics")); // share files in statics folder on route /statics
@@ -36,10 +42,6 @@ mongoose
   .then(() => console.log("MongDB connected..."))
   .catch((err) => console.log(`Error: ${err}`));
 
-//INITIALISE BACKEND
-app.listen(PORT, () => {
-  console.log(`Backend initialised on port: ${PORT}`);
-});
 
 // ROUTES
 app.use("/users", userRouters);
